@@ -1,0 +1,265 @@
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="Fanying Ye">
+<link rel="shortcut icon" href="img/Title.jpg">
+<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Maven+Pro' rel='stylesheet' type='text/css'>
+<style>
+@import url(style.css);
+</style>
+
+</head>
+<body>
+	<div>
+	 <div id = 'header'>
+	     <table valign = 'bottom' id = 'headertable'>
+	     	<thead>
+	     		<tr valign = 'bottom'>
+	     			<td id = 'introcell' width = '350px' align = 'left'>
+	     			</td>
+
+	     			  <td id = 'navcell' width = '350px' align= 'right'>
+	     				<ul id = 'nav'>
+	     				</ul>
+	     			</td>
+	     		</tr>
+	     	</thead>
+	     </table>
+     </div>
+    
+	 <div id = 'bio' class = 'float'>
+            <table id = 'biotable'>
+            		<tr valign = 'left'>
+                        <td align = 'left' width="230px"><h4><strong>Bio</strong></h4></td>
+                </tr>
+            <tr valign = 'center'>
+	     			<td id = 'photo' valign = 'top'>
+	     			</td>
+	     			<td id = 'bio' align = 'left' valign = 'top' width = '750px'>
+	     			Hi! I'm Fanying Ye, an M.S. student at Department of Electrical and Computer Engineering, Tufts University. 
+            <br> I received my B.E. degree in Electronic Sicence and Technology from <a href="http://english.bit.edu.cn">Beijing Institute of Technology</a>, China.<br>
+            <br> Here is my <a href="files/Fanying Ye_CV.pdf">CV</a>.
+
+            <br><br>
+
+             <a href="https://www.linkedin.com/in/fanying-ye-41297ba9" title="Fanying on LinkedIn - https://www.linkedin.com/in/fanying-ye-41297ba9"><img src="img/linkedin-mark.png" width = 20px><img> </i></a>
+
+             <a href="https://github.com/FanyingYe/" title="Fumeng on Github - https://github.com/FanyingYe/"><img src="img/GitHub-Mark.png" width = 20px><img> </i></a>
+
+	     			</td>
+	     		</tr>
+       </table>
+	     </div>
+         
+	     <div id = 'research' class = 'float'>
+
+            <table valign= ' bottom' align = 'left'>
+                <thead>
+                    <tr>
+                        <td valign= ' bottom' align = 'left'>
+                        <h4>Academic Projects</h4>
+                        Important link:<a href = "comp15.html"> (My work for 2015 spring Data Structure class at Tufts)</a>
+                        Important link:<a href = "comp135.html"> (My work for 2015 fall Machine Learning class at Tufts)</a>
+                        Important link:<a href = "comp86.html"> (My work for 2015 fall Oop graphical user interface class at Tufts)</a>
+                    
+                </td>
+                </tr>
+                </thead>
+            </table>
+            
+         </div>
+
+
+	 <div id = 'hob' class = 'float'>
+    <br>
+        <table valign= ' bottom' align = 'left'>
+                <thead>
+                    <tr>
+                    
+                    <td valign= ' bottom' align = 'left'>
+                    
+                     
+                    
+                    <h4>Hobbies</h4>
+          
+                    <ul style="list-style-type:disc" class = 'hob'>
+                    
+                    <li><b>Crafts</b>: I'm a designer of <a href="http://en.wikipedia.org/wiki/Paper_model"> paper model</a> &#x261e; <a href = "crafts.html"> (pictures)</a></li>
+
+                    <li><b>Reading</b>: History and Novel, English and Chinese </li>
+                    
+                    <li><b>Music</b>: Classical and Light music </li>
+
+                    <li><b>Drawing</b>: Digital Drawing </li>
+
+                    <li><b>Travel</b>: Although no time in recent years &#x261e; <a href = 'travel.html'>(pictures)</a></li>
+
+                    <li><b>Others</b>: I'm a supporter of <a href = "https://en.wikipedia.org/wiki/Hanfu">Hanfu</a> (the traditional clothing of the Han Chinese ethnic group) and a fan of <a href = 'https://en.wikipedia.org/wiki/Lolita_fashion'>Lolita fashion</a>.</li>
+                    
+                    </ul>
+                    </td>
+                </tr>
+              
+                </thead>
+            </table>
+
+     </div>
+
+<div id="footer" class="smallfont">
+  <table valign= ' bottom' align = 'left'>
+                <thead>
+                    <tr>
+                    
+                    <td valign= ' bottom' align = 'left' >
+
+                <p style="font-size:10px">Fumeng Yang (杨 馥梦 <img src = img/sound.png onclick = "play_CN()" width = 12px><img>) | <a href = 'http://www.cs.tufts.edu/'>Department of Computer Science</a> | <a href = 'http://www.tufts.edu/'>Tufts University</a> | Last update Jan 2016 </p>
+                 </td>
+                </tr>
+              
+                </thead>
+            </table>
+            <br>
+</div>
+
+</body>
+
+<script src="d3.v3.min.js"></script>
+
+<audio id="yfm_EN" src="files/yfm_EN.mp3" ></audio>
+<audio id="yfm_CN" src="files/yfm_CN.mp3" ></audio>
+
+<script>
+  function play_EN(){
+       var audio = document.getElementById("yfm_EN");
+       audio.play();
+  }
+
+   function play_CN(){
+       var audio = document.getElementById("yfm_CN");
+       audio.play();
+  }
+</script>
+
+<script>
+    d3.select('#introcell')
+    .append('p')
+    .html('Fumeng Yang <img src = img/sound-cl.png onclick = "play_EN()" width = 20px><img>')
+    .attr('id', 'name')
+    .style('font-size', '50px')
+    .style('margin-top', '10px')
+    .style('color', "#F0F0F0")
+    .style('margin-left', '8px')
+
+    d3.select('#introcell')
+    .append('p')
+    // .html('<center>M.S./Ph.D at Tufts University<br><br>fyang at cs.tufts.edu</center>')
+    .html('M.S./Ph.D at Tufts University<br><br>fyang at cs.tufts.edu')
+    .style('line-height', '0.5em')
+    .attr('class', 'p')
+    .style('margin-top', '-25px')
+    .style('margin-bottom', '10px')
+    .style('margin-left', '8px')
+    .style('font-size','12px')
+    .style('color', "#F0F0F0")
+
+</script>
+
+<script>
+    d3.select('#nav')
+    .append('li')
+    .html('<a href="#bio">Bio</a>')
+    .attr('class', 'navv')
+    .style('margin-bottom', '10px')
+
+    d3.select('#nav')
+    .append('li')
+    .html('<a href="#research">Research</a>')
+    .attr('class', 'navv ul li')
+    // .attr('class', 'navv')
+
+    d3.select('#nav')
+    .append('li')
+    .html('<a href="#proj">Projects</a>')
+    .attr('class', 'navv ul li')
+    // .attr('class', 'navv')
+
+
+    // d3.select('#nav')
+    // .append('li')
+    // .html('<a href="#course">Courses</a>')
+    // .attr('class', 'ul li')
+
+     d3.select('#nav')
+    .append('li')
+    .html('<a href="#hob">Hobbies</a>')
+    .attr('class', 'navv ul li')
+    // .attr('class', 'navv')
+
+
+</script>
+
+<script>
+   d3.select('#photo')
+   .append('img')
+   .attr('src', 'img/image1.JPG')
+   .attr('width', '200px')
+   .attr('class', 'img')
+
+</script>
+
+<script>
+    d3.csv("files/projs.csv", function(data) {
+                   // the columns you'd like to display
+                   var columns = ["col1", "col2", 'col3', 'col4'];
+                   
+                   var table = d3.select("#proj").append("table").attr('class', 'table'),
+                   thead = table.append("thead"),
+                   tbody = table.append("tbody");
+                   
+                   // append the header row
+                   thead.append("tr")
+                   .selectAll("th")
+                   .data(columns)
+                   .enter()
+                   .append("th")
+                   .attr("width", function(d, i){
+                       if(i%2 == 0)
+                          return "100px"
+                       if(i%2 == 1)
+                          return "190px"
+
+                    })
+
+                   
+                   // create a row for each object in the data
+                   var rows = tbody.selectAll("tr")
+                   .data(data)
+                   .enter()
+                   .append("tr")
+                 
+                   
+                   // create a cell in each row for each column
+                   var cells = rows.selectAll("td")
+                   .data(function(row) {
+                         return columns.map(function(column, i) {
+
+                                            return {
+                                            column: column,
+                                            value: row[column]
+                                            };
+                                            });
+                         })
+                   .enter()
+                   .append("td")
+                   .html(function(d) {
+                         return d.value;
+                         })
+                   .attr("class", function(d, i) {
+                         return columns[i];
+                         })
+                   })
+                 
+
+</script>
