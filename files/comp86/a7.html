@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<title>Comp 86 a7</title>
+
+<script src="http://threejs.org/build/three.min.js"></script>
+<script src="http://threejs.org/examples/js/Detector.js"></script>
+<script src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="http://threejs.org/examples/js/loaders/OBJLoader.js"></script>
+<script src="boiler.js"></script>
+<script src="lights.js"></script>
+
+<script type="text/javascript">
+
+var myScene
+
+function makeSceneGraph () {
+	myScene = new Scene()
+	scene.add (myScene)
+	lights = new Lights() // Now in a separate lights.js file
+
+	// Other initialization: when the mouse moves, call our function
+	document.addEventListener ("mousedown", onDocumentMouseDown, false)
+}
+
+// This will override the one in boiler.js
+animate = function () {
+	requestAnimationFrame( animate );
+	myScene.tick()
+	controls.update()
+}
+
+
+function Scene () {
+	THREE.Object3D.call (this)
+
+	// First tree, position = WC origin to robot local origin
+	var r = new Tree ()
+	r.position.set (0, -5, -10)
+	this.add (r)
+
+	// A second tree, different local origin
+	r = new Tree ()
+	r.position.set (-5, -5, -20)
+	r.rotation.set (0, -20 * Math.PI/180, 0)
+	this.add (r)
+
+	// Plane, different local origin
+	this.p = new Plane ()
+	this.p.position.set (5, 5, 5)
+	this.add (this.p)
+
+	/*
+	 * Receive timer tick, pass it to objects that need it
+	 */
+	 this.tick = function () {
+		this.p.tick()
+		renderer.render( scene, camera );
+	}
+	
+}
+// Also need to do these 2 things to inherit
+Scene.prototype = new THREE.Object3D ()
+Scene.prototype.constructor = Scene
+
+/*
+ * We make a Tree out of other library objects
+ */
+function Tree () {
+	THREE.Object3D.call (this)
+
+	/*
+     * Initialize some Materials we will be using
+	 */
+	var btm = new THREE.MeshPhongMaterial ({ color: 0x4c4c33 })
+
+	/*
+	 * The trunk
+	 */
+	var column = new THREE.Mesh (
+		new THREE.CylinderGeometry (.4, .4, 2.5, 32, 32, false), btm)
+	column.position.set (0, 2.5/2.0, 0)
+	this.add (column)
+
+	/*
+	 * The crown
+	 */
+	var geometry = new THREE.CylinderGeometry( 0, 3, 3, 4, 4 );
+	var material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+	var cylinder = new THREE.Mesh( geometry, material );
+	cylinder.position.set (0, 4, 0)
+	this.add (cylinder)
+
+	var geometry2 = new THREE.CylinderGeometry( 0, 1.5, 2.5, 4, 4 );
+	var cylinder2 = new THREE.Mesh( geometry2, material );
+	cylinder2.position.set (0, 5.8, 0)
+	this.add (cylinder2)
+
+	var geometry3 = new THREE.CylinderGeometry( 0, 1, 1.5, 4, 4 );
+	var cylinder3 = new THREE.Mesh( geometry3, material );
+	cylinder3.position.set (0, 6.5, 0)
+	this.add (cylinder3)
+
+}
+// For inheritance
+Tree.prototype = new THREE.Object3D ()
+Tree.prototype.constructor = Tree
+
+function Bullet () {
+	THREE.Object3D.call (this)
+	/*
+     * Initialize some Materials we will be using
+	 */
+	var material = new THREE.MeshPhongMaterial ({ color: 0x4c4c33 })
+
+	// The origin
+	var location = new THREE.Object3D ()
+	location.position.set (0, 0, 0)
+	this.add (location)
+
+	/*
+	 * move animation:
+	 * Insert an extra transform node, Identity for now,
+	 * which we will modify on each tick.
+	 */
+	this.move = new THREE.Object3D ()
+	location.add (this.move)
+
+	//sphere as a bullet
+	var geometry = new THREE.SphereGeometry(0.4,32,32);
+	var sphere = new THREE.Mesh(geometry, material );
+	sphere.position.set (0, 0, 0)
+	this.move.add (sphere)
+
+	/*
+	 * Received whenever plane tick's,
+	 * speed of bullet is 3 times faster than plane
+	 * we should update everything we need in scene graph,
+	 * redraw is automatic.
+	 */
+	this.tick = function () {
+		var currentX = this.move.position.x
+		var currentY = this.move.position.y
+		var currentZ = this.move.position.z
+
+		currentZ -= 0.15
+
+		this.move.position.set(currentX, currentY, currentZ)
+	}
+
+}
+// For inheritance
+Bullet.prototype = new THREE.Object3D ()
+Bullet.prototype.constructor = Bullet
+
+function Plane () {
+	THREE.Object3D.call (this)
+
+	var material = new THREE.MeshPhongMaterial ({ color: 0x4c4c33 })
+
+	/*
+	 * The body
+	 */
+	var original = new THREE.Object3D ()
+	original.position.set (0, 0, 0)
+	this.add (original)
+	this.move = new THREE.Object3D ()
+	original.add (this.move)
+
+	var body = new THREE.Mesh(
+	 		new THREE.SphereGeometry(3,32,32),material)
+	body.position.set(0,0,0)
+	this.move.add (body)
+
+	/*
+	 * The tail
+	 */
+	this.tail = new Tail()
+	this.tail.rotation.set (Math.PI/2,0,0)
+	this.tail.position.set(0,0,5)
+	this.move.add (this.tail)
+
+	/*
+	 * The propeller on the head
+	 */
+	this.propeller = new Propeller(8)
+	this.propeller.position.set (0, 3, 0)
+	this.move.add (this.propeller)
+
+	/*
+	 * The base below body
+	 */
+	var base = new Base()
+	base.position.set (0, -2.5, 0)
+	this.move.add (base)
+
+
+	/*
+	 * The list of bullets
+	 */
+	this.bullets = []
+	this.bullets[0] = new Bullet ()
+	this.bullets[0].position.set(0,0,0)
+	this.add (this.bullets[0])
+	this.bulletNumber = 1;
+	this.timer = 0
+
+	/*
+	 * Received whenever timer tick's,
+	 * in this function, new a bullet periodly, and tick 
+	 * the tail and propeller
+	 * we should update everything we need in scene graph,
+	 * redraw is automatic.
+	 */
+	this.tick = function () {
+		var currentX = this.move.position.x
+		var currentY = this.move.position.y
+		var currentZ = this.move.position.z
+
+		this.timer += 1/240
+		if(this.timer > 1) {
+			this.bullets[this.bulletNumber] = new Bullet ()
+			this.bullets[this.bulletNumber].position.set(currentX,currentY,currentZ)
+			this.add (this.bullets[this.bulletNumber])
+			this.bulletNumber += 1
+			this.timer = 0
+		}
+
+		for (b in this.bullets) {
+			this.bullets[b].tick()
+		}
+		this.propeller.tick()
+		this.tail.tick()
+
+		currentZ -= 0.05
+
+		this.move.position.set(currentX, currentY, currentZ)
+	}
+}
+// For inheritance
+Plane.prototype = new THREE.Object3D ()
+Plane.prototype.constructor = Plane
+
+function Propeller (length) {
+	THREE.Object3D.call (this)
+
+	var material = new THREE.MeshPhongMaterial ({ color: 0x4c4c33 })
+
+	/*
+	 * The base of propeller
+	 */
+	var topBase = new THREE.Mesh (
+		new THREE.CylinderGeometry (.2, .2, length/5, 32, 32, false), material)
+	topBase.position.set (0, 0, 0)
+	this.add (topBase)
+
+	// First make root node for the rest of the propeller,
+	// and then work from its local origin
+	var upper = new THREE.Object3D ()
+	upper.position.set (0, length/10, 0)
+	this.add (upper)
+
+	/*
+	 * move animation:
+	 * Insert an extra transform node, Identity for now,
+	 * which we will modify on each tick.
+	 */
+	this.move = new THREE.Object3D ()
+	upper.add (this.move)
+
+	//three blades of propeller
+	var part1 = new THREE.Mesh (
+		new THREE.BoxGeometry (.2, .2, length), material)
+	part1.rotation.set (0,Math.PI/3,0)
+	part1.position.set(0, 0, 0)
+	this.move.add (part1)
+
+	var part2 = new THREE.Mesh (
+		new THREE.BoxGeometry (.2, .2, length), material)
+	part2.rotation.set (0, Math.PI, 0)
+	part2.position.set(0, 0, 0)
+	this.move.add (part2)
+
+	var part3 = new THREE.Mesh (
+		new THREE.BoxGeometry (.2, .2, length), material)
+	part3.rotation.set (0, -Math.PI/3, 0)
+	part3.position.set(0, 0, 0)
+	this.move.add (part3)
+
+	/*
+	 * Received whenever plane tick's,
+	 * rotate the blade according to the point move
+	 * redraw is automatic.
+	 */
+	this.tick = function () {
+		var a = this.move.rotation.y
+		a += (2 * Math.PI) / (4*60)
+		if (a > 2*Math.PI) {
+			a -= 2 * Math.PI
+		}
+		this.move.rotation.set (0, a, 0)
+	}
+}
+// For inheritance
+Propeller.prototype = new THREE.Object3D ()
+Propeller.prototype.constructor = Propeller
+
+function Base () {
+	THREE.Object3D.call (this)
+	var material = new THREE.MeshPhongMaterial ({ color: 0x4c4c33 })
+
+	/*
+	 * First platform
+	 */
+	var platform1 = new THREE.Mesh(
+	 		new THREE.BoxGeometry(.2, .2, 4),material)
+	platform1.position.set(1,-0.5,0)
+	this.add (platform1)
+
+	/*
+	 * Second platform
+	 */
+	var platform2 = new THREE.Mesh(
+	 		new THREE.BoxGeometry(.2, .2, 4),material)
+	platform2.position.set(-1,-0.5,0)
+	this.add (platform2)
+
+	/*
+	 * base columns for the first platform
+	 */
+	var column1 = new THREE.Mesh(
+	 		new THREE.BoxGeometry(.5, .5, .5),material)
+	column1.position.set(1,-0.2,1)
+	this.add (column1)
+	var column2 = new THREE.Mesh(
+	 		new THREE.BoxGeometry(.5, .5, .5),material)
+	column2.position.set(1,-0.2,-1)
+	this.add (column2)
+
+	/*
+	 * base columns for the second platform
+	 */
+	var column3 = new THREE.Mesh(
+	 		new THREE.BoxGeometry(.5, .5, .5),material)
+	column3.position.set(-1,-0.2,1)
+	this.add (column3)
+	var column4 = new THREE.Mesh(
+	 		new THREE.BoxGeometry(.5, .5, .5),material)
+	column4.position.set(-1,-0.2,-1)
+	this.add (column4)
+
+}
+// For inheritance
+Base.prototype = new THREE.Object3D ()
+Base.prototype.constructor = Base
+
+function Tail () {
+	THREE.Object3D.call (this)
+	var material = new THREE.MeshPhongMaterial ({ color: 0x4c4c33 })
+
+	/*
+	 * Trunk for the tail
+	 */
+	var trunk = new THREE.Mesh(
+	 		new THREE.CylinderGeometry(0.2, 1, 6, 20, 4 ),material)
+	trunk.position.set(0,0,0)
+	this.add (trunk)
+
+	/*
+	 * propeller on the tail trunk
+	 */
+	this.propeller = new Propeller(2)
+	this.propeller.rotation.set (0,0,Math.PI/2)
+	this.propeller.position.set(-0.2,2.6,0)
+	this.add (this.propeller)
+
+	/*
+	 * Received whenever plane tick's,
+	 * tick the propeller on it
+	 */
+	this.tick = function () {
+		this.propeller.tick()
+	}
+}
+// For inheritance
+Tail.prototype = new THREE.Object3D ()
+Tail.prototype.constructor = Tail
+
+/*
+ * Handle mouse picking
+ */
+function onDocumentMouseDown (event) {
+	// Take mouse coords, flip y, convert to (-1..+1)
+	// Also note in HTML: <body style="margin: 0px">
+	var mouse = {
+		x: ( event.clientX / window.innerWidth ) * 2 - 1,
+		y: - ( event.clientY / window.innerHeight ) * 2 + 1 }
+
+	// Set up for picking
+	var raycaster = new THREE.Raycaster ()
+	raycaster.setFromCamera (mouse, camera)
+
+	// Returns array of all objects in scene with which the ray intersects
+	var intersects = raycaster.intersectObjects (scene.children, true);
+	
+	// If there were any intersections, take the first (ie nearest)
+	if (intersects.length > 0) {
+		intersects[0].object.material =
+			new THREE.MeshPhongMaterial ({ color: 0xff0000 })
+		render()
+	}
+}
+
+</script>
+</head>
+
+<body>
+<!-- Container for three.js -->
+<div id="theContainer">&nbsp;</div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+#footer {
+    height: 55px;
+}
+#footer p{
+    font: normal normal normal 15x/55px 'Corbel';
+    text-align: left;
+    color: #000;
+}
+#footer a {
+    font: normal normal normal 15px/20px 'Corbel', sans-serif;
+    font-size: 15px;
+    line-height: 25px;
+    text-align: left;
+    color: #07a2a6;
+    height: 43px;
+    text-decoration: none;
+    margin-top: 2%;
+}
+#assignments
+  {
+  font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+  width:70%;
+  border-collapse:collapse;
+  }
+
+#assignments td, #assignments th 
+  {
+  font-size:1em;
+  border:1px solid #98bf21;
+  padding:3px 7px 2px 7px;
+  }
+
+#assignments th 
+  {
+  font-size:1.1em;
+  text-align:left;
+  padding-top:5px;
+  padding-bottom:4px;
+  background-color:#A7C942;
+  color:#ffffff;
+  }
+
+#assignments tr.alt td 
+  {
+  color:#000000;
+  background-color:#EAF2D3;
+  }
+
+body {
+    font-family: 'Corbel', sans-serif;
+    font-size: 15px;
+    line-height: 20px;
+    color: #000;
+    top:20%;
+}
+
+body {    
+    width:120%;
+    margin-left: 10%;
+}
+
+
+h1,h2, h3, h4, h5, h6 {
+    font-family: 'Corbel', sans-serif;
+    line-height: 20px;
+}
+
+h1 {
+    text-align: left;
+    font-size: 35px;
+}
+
+
+a {
+    font: normal normal normal 18px/20px 'Corbel', sans-serif;
+    font-size: 15px;
+    line-height: 20px;
+    color: #07a2a6;
+    height: 43px;
+    text-decoration: none;
+}
+
+.smallfont{
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+
+}
+
+ul {
+    height: 50px;
+    margin-top: 25px;
+}
+
+ ul li {
+    margin: 0;
+    margin-left: 15px;
+    padding: 0;
+    list-style: none;
+    float: left;
+    height: 40px;
+}
+ ul li a {
+    font: normal normal normal 15px 'Corbel', sans-serif;
+    text-align: center;
+    color: #07a2a6;
+    height: 40px;
+
+}
+
+ul li:hover a,  ul li:active a,  ul li:focus a,  ul li a.current{
+    color: #07a2a6;
+    border-bottom: 2px solid #07a2a6;
+    text-decoration: none;
+}
+
+.solidline {
+    border-top: 1px solid #c9cbca;
+    margin: 30px 0 30px 0;
+    width: 100%;
+}
