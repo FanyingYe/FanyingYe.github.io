@@ -64,7 +64,7 @@
                         <br>
                         <a href = "comp135.html"> My work for 2015 fall Machine Learning class at Tufts</a>
                         <br>
-                        <a href = "viz.html"> My work for 2015 fall Oop graphical user interface class at Tufts</a>
+                        <a href = "comp86.html"> My work for 2015 fall Oop graphical user interface class at Tufts</a>
                     
                 </td>
                 </tr>
@@ -126,22 +126,9 @@
 </body>
 
 <script src="d3.v3.min.js"></script>
-<<<<<<< HEAD
-<audio id="yfm_CN" src="files/yfm_CN.mp3" ></audio>
-
-<script>
-=======
-
-<audio id="yfy_EN" src="files/yfy_EN.mp3" ></audio>
 <audio id="yfy_CN" src="files/yfy_CN.mp3" ></audio>
 
 <script>
-  function play_EN(){
-       var audio = document.getElementById("yfy_EN");
-       audio.play();
-  }
-
->>>>>>> 4468622eb9529bd7322a5c994d58a73c7207f587
    function play_CN(){
        var audio = document.getElementById("yfy_CN");
        audio.play();
@@ -151,7 +138,7 @@
 <script>
     d3.select('#introcell')
     .append('p')
-    .html('Fanying Ye" width = 20px><img>')
+    .html('Fanying Ye')
     .attr('id', 'name')
     .style('font-size', '50px')
     .style('margin-top', '10px')
@@ -212,5 +199,60 @@
    .attr('src', 'img/face.jpg')
    .attr('width', '200px')
    .attr('class', 'img')
+
+</script>
+
+<script>
+    d3.csv("files/projs.csv", function(data) {
+                   // the columns you'd like to display
+                   var columns = ["col1", "col2", 'col3', 'col4'];
+                   
+                   var table = d3.select("#proj").append("table").attr('class', 'table'),
+                   thead = table.append("thead"),
+                   tbody = table.append("tbody");
+                   
+                   // append the header row
+                   thead.append("tr")
+                   .selectAll("th")
+                   .data(columns)
+                   .enter()
+                   .append("th")
+                   .attr("width", function(d, i){
+                       if(i%2 == 0)
+                          return "100px"
+                       if(i%2 == 1)
+                          return "190px"
+
+                    })
+
+                   
+                   // create a row for each object in the data
+                   var rows = tbody.selectAll("tr")
+                   .data(data)
+                   .enter()
+                   .append("tr")
+                 
+                   
+                   // create a cell in each row for each column
+                   var cells = rows.selectAll("td")
+                   .data(function(row) {
+                         return columns.map(function(column, i) {
+
+                                            return {
+                                            column: column,
+                                            value: row[column]
+                                            };
+                                            });
+                         })
+                   .enter()
+                   .append("td")
+                   .html(function(d) {
+                         return d.value;
+                         })
+                   .attr("class", function(d, i) {
+                         return columns[i];
+                         })
+                   })
+                 
 
 </script>
