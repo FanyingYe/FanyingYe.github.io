@@ -126,16 +126,9 @@
 </body>
 
 <script src="d3.v3.min.js"></script>
-
-<audio id="yfm_EN" src="files/yfm_EN.mp3" ></audio>
 <audio id="yfm_CN" src="files/yfm_CN.mp3" ></audio>
 
 <script>
-  function play_EN(){
-       var audio = document.getElementById("yfm_EN");
-       audio.play();
-  }
-
    function play_CN(){
        var audio = document.getElementById("yfm_CN");
        audio.play();
@@ -145,7 +138,7 @@
 <script>
     d3.select('#introcell')
     .append('p')
-    .html('Fanying Ye <img src = img/sound.png onclick = "play_EN()" width = 20px><img>')
+    .html('Fanying Ye" width = 20px><img>')
     .attr('id', 'name')
     .style('font-size', '50px')
     .style('margin-top', '10px')
