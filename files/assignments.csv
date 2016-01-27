@@ -1,5 +1,0 @@
-col1,col2,col3,col4
-,Name,Description,My Demo
-Assignment 0 to 6,Plane simulation/game,Build up a simulation of a control console for handling several remotely-piloted airplanes or UAVs using Java Swing, <a href = 'files/comp86/a6.mp4'> (demo)</a>
-Assignment 7,Three-dimensional version of UAV simulation,Use Three.js and Javascript to build an interactive 3D world,<a href = 'files/comp86/a7.html'> (link)</a>
-Assignment 8,GUI programming in Python,Python version of UAV simulation,<a href = 'files/comp86/a8.mp4'> (demo)</a>
