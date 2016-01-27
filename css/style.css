@@ -155,6 +155,9 @@ address span{
 p a{
   color:#990;
 }
+p a:hover{
+  color:#6ecadc;
+}
 
 .cmpny1 a:hover{
   color:#6ecadc;
